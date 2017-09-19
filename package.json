@@ -1,0 +1,13 @@
+{
+  "name": "chat-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "description": "Socket.io chat server",
+  "author": "Philip Boardman",
+  "private": true,
+  "dependencies": {
+    "express": "^4.15.4",
+    "socket.io": "^2.0.3"
+  }
+}
