@@ -1,0 +1,102 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font: 13px Helvetica, Arial;
+  height: 100%;
+  overflow: hidden;
+}
+
+section {
+  display: flex;
+  flex: 1;
+  flex-grow: 2;
+  height: calc(100% - 3em);
+}
+
+h2 {
+  font-size: 1em;
+  height: 2em;
+  padding: 0 .5em;
+  line-height: 2em;
+  background: grey;
+  color: white;
+}
+
+article {
+  flex: 1;
+}
+
+aside {
+  flex: 0;
+  border-left: 1px solid grey;
+}
+
+.list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: auto;
+  height: calc(100% - 2em);
+}
+
+.list li {
+  padding: 5px 10px;
+}
+
+.list .notice {
+  font-style: italic;
+}
+
+.list .unread {
+  font-weight: bold;
+}
+
+.list .active {
+  color: white;
+  background: silver;
+}
+
+.list li:nth-child(odd) {
+  background: #F5FBFF;
+}
+
+.list li:nth-child(odd).active {
+  background: #CACFD3;
+}
+
+form {
+  border-top: 1px solid grey;
+  flex: 0;
+  display: flex;
+}
+
+form input,
+form button {
+  font-size: 1em;
+  border: 0;
+  padding: 1em;
+  line-height: 1em;
+}
+
+form input {
+  flex-grow: 1;
+}
+
+form button {
+  background: #eee;
+}
+
+form div {
+  background: #eee;
+  border: none;
+  padding: 10px;
+}
