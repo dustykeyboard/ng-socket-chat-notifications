@@ -25,7 +25,7 @@ section {
 h2 {
   font-size: 1em;
   height: 2em;
-  padding: 0 .5em;
+  padding: 0 0.5em;
   line-height: 2em;
   background: grey;
   color: white;
@@ -40,6 +40,10 @@ aside {
   border-left: 1px solid grey;
 }
 
+aside .list li {
+  padding-right: 36px;
+}
+
 .list {
   list-style-type: none;
   margin: 0;
@@ -50,6 +54,11 @@ aside {
 
 .list li {
   padding: 5px 10px;
+}
+
+.list img {
+  position: absolute;
+  right: 10px;
 }
 
 .list .notice {
@@ -66,11 +75,11 @@ aside {
 }
 
 .list li:nth-child(odd) {
-  background: #F5FBFF;
+  background: #f5fbff;
 }
 
 .list li:nth-child(odd).active {
-  background: #CACFD3;
+  background: #cacfd3;
 }
 
 form {
@@ -99,4 +108,5 @@ form div {
   background: #eee;
   border: none;
   padding: 10px;
+  cursor: pointer;
 }

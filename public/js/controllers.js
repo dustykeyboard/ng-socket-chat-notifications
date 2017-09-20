@@ -16,18 +16,21 @@ chatApp.controller('ChatCtrl', function($scope, socket) {
     return $scope.getUserName(id) || 'ALL';
   };
 
-  $scope.setChannel = channel => ($scope.channel = channel);
+  $scope.setChannel = channel => {
+    $scope.channel = channel;
+    resetUnread(channel);
+  };
 
   const showNotification = data => {
     if (!window.Notification) return; // Notifications not supported
 
     if (Notification.permission === 'granted') {
-      new Notification(`${data.name}: ${data.message}`);
+      var n = new Notification(`${data.name}: ${data.message}`);
     } else if (Notification.permission !== 'denied') {
       // Requesting Notifications permission
       Notification.requestPermission(permission => {
         if (permission === 'granted') {
-          new Notification(`${data.name}: ${data.message}`);
+          var n = new Notification(`${data.name}: ${data.message}`);
         }
       });
     }
@@ -46,6 +49,11 @@ chatApp.controller('ChatCtrl', function($scope, socket) {
       showNotification(data);
     }
   };
+
+  const resetUnread = channel => {
+    if (!$scope.history[channel]) return;
+    $scope.history[channel].unread = 0;
+  }
 
   /* UI to changeName and send newName */
   $scope.changeName = () => {
@@ -79,18 +87,19 @@ chatApp.controller('ChatCtrl', function($scope, socket) {
   };
 
   /* Listening to socket events */
-  socket.on('rename', ({ id, name }) => {
-    console.log('rename', { id, name, socket });
-    if (id === socket.id()) $scope.name = name;
-    else $scope.users[id].name = name;
+  socket.on('rename', data => {
+    console.log('rename', data);
+    if (data.id === socket.id()) $scope.name = data.name;
+    else $scope.users[data.id] = data;
   });
 
   socket.on('users', data => {
+    console.log('received users', data);
     $scope.users = data;
   });
 
   socket.on('message', data => {
-    console.log('received message', { data });
+    console.log('received message', data);
     addMessage(data);
   });
 
@@ -98,6 +107,9 @@ chatApp.controller('ChatCtrl', function($scope, socket) {
     console.log('received notice', data);
   });
 
-  window.onfocus = () => ($scope.inBackground = false);
+  window.onfocus = () => {
+    $scope.inBackground = false;
+    resetUnread($scope.channel);
+  };
   window.onblur = () => ($scope.inBackground = true);
 });

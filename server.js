@@ -3,11 +3,22 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var random_name = require('node-random-name');
+var gravatar = require('gravatar');
+
 var port = process.env.PORT || 3000;
 
 var users = {};
 
-const user = socket => ({ id: socket.id, name: users[socket.id].name });
+const user = socket => users[socket.id];
+
+const setGravatar = socket => {
+  const { name } = users[socket.id];
+  const url = gravatar.url(name, {
+    s: 16,
+    d: 'mm'
+  });
+  users[socket.id].gravatar = url;
+};
 
 app.use(express.static('public'));
 
@@ -20,6 +31,7 @@ io.on('connection', socket => {
     id: socket.id,
     name: random_name({ first: true })
   };
+  setGravatar(socket);
   socket.emit('rename', user(socket));
   io.emit('users', users);
   socket.broadcast.emit('connected', user(socket));
@@ -49,10 +61,8 @@ io.on('connection', socket => {
     if (taken) return callback(false);
 
     users[socket.id].name = name;
-    socket.broadcast.emit('rename', {
-      id: socket.id,
-      name: users[socket.id].name
-    });
+    setGravatar(socket);
+    socket.broadcast.emit('rename', user(socket));
     callback(true);
   });
 

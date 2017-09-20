@@ -20,7 +20,7 @@
       <h2>Users</h2>
       <ul class='list'>
         <li ng-click='setChannel("ALL")' ng-class='{active: channel == "ALL", unread: history["ALL"].unread}'>ALL</li>
-        <li ng-repeat='user in users' ng-hide='user.name === name' ng-click='setChannel(user.id, user.name)' ng-class='{active: channel == user.id, unread: history[user.id] && history[user.id].unread}'>{{user.name}}</li>
+        <li ng-repeat='user in users' ng-hide='user.name === name' ng-click='setChannel(user.id, user.name)' ng-class='{active: channel == user.id, unread: history[user.id] && history[user.id].unread}'><img src='{{user.gravatar}}' />{{user.name}}</li>
       </ul>
     </aside>
   </section>
