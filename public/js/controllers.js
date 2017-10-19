@@ -1,6 +1,6 @@
 'use strict';
 
-chatApp.controller('ChatCtrl', function($scope, socket) {
+chatApp.controller('ChatCtrl', function($scope, socket, notification) {
   $scope.name = '...';
   $scope.channel = 'ALL';
   $scope.history = {};
@@ -21,21 +21,6 @@ chatApp.controller('ChatCtrl', function($scope, socket) {
     resetUnread(channel);
   };
 
-  const showNotification = data => {
-    if (!window.Notification) return; // Notifications not supported
-
-    if (Notification.permission === 'granted') {
-      var n = new Notification(`${data.name}: ${data.message}`);
-    } else if (Notification.permission !== 'denied') {
-      // Requesting Notifications permission
-      Notification.requestPermission(permission => {
-        if (permission === 'granted') {
-          var n = new Notification(`${data.name}: ${data.message}`);
-        }
-      });
-    }
-  };
-
   const addMessage = data => {
     if (!$scope.history[data.channel]) {
       $scope.history[data.channel] = {
@@ -46,14 +31,14 @@ chatApp.controller('ChatCtrl', function($scope, socket) {
     $scope.history[data.channel].messages.push(data);
     if (data.channel !== $scope.channel || $scope.inBackground) {
       $scope.history[data.channel].unread++;
-      showNotification(data);
+      notification.show(data);
     }
   };
 
   const resetUnread = channel => {
     if (!$scope.history[channel]) return;
     $scope.history[channel].unread = 0;
-  }
+  };
 
   /* UI to changeName and send newName */
   $scope.changeName = () => {
