@@ -1,6 +1,6 @@
 'use strict';
 
-chatApp.factory('notification', function($rootScope) {
+chatApp.factory('notifications', function($rootScope) {
   return {
     show: data => {
       console.log('notification.show', data);
