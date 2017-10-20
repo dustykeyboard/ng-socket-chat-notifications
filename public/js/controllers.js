@@ -1,6 +1,6 @@
 'use strict';
 
-chatApp.controller('ChatCtrl', function($scope, socket, notification) {
+chatApp.controller('ChatCtrl', function($scope, socket, notifications) {
   $scope.name = '...';
   $scope.channel = 'ALL';
   $scope.history = {};
@@ -31,7 +31,7 @@ chatApp.controller('ChatCtrl', function($scope, socket, notification) {
     $scope.history[data.channel].messages.push(data);
     if (data.channel !== $scope.channel || $scope.inBackground) {
       $scope.history[data.channel].unread++;
-      notification.show(data);
+      notifications.show(data);
     }
   };
 
